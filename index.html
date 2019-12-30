@@ -2,22 +2,24 @@
   <head>
     <script src="multi-progress.js"> </script>
   </head>
-<body>
-  <div>
-  Hello
-  <br/>
-</div>
-
-
-
-Multi-progress...
+  <body>
+    Multi-progress...
+    <hr/>
+    <table><tr>
+    <td>
+    <multi-progress color="tan" id="one" progress=".4">
+	do stuff
+    </multi-progress>
+    </td>
+    <td>
+    <multi-progress color="green" id="two" progress=".6"> <span>mesopotamians</span></multi-progress>
+    </td>
+    <td>
+    <multi-progress color="red" id="three" radius="20" progress=".3"><span>Pokemon</span>
+      <multi-progress color="blue" id="four" radius="40" progress=".6"><span>is inside</span></multi-progress>
+    </multi-progress>
+    </td>
+    </tr></table>
 <hr/>
-<code>&lt;multi-progress color="plaid" color="yellow"&gt;&lt;/multi-progress&gt;</code>
-<br/>
-  <multi-progress color="red" id="one" progress=".9"></multi-progress>
-<br/>
-<br/>
-  <multi-progress color="green" id="two" progress=".6"></multi-progress>
-<br/>
-</div>
-</body>
+  </body>
+</html>
