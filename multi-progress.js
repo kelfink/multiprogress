@@ -3,7 +3,9 @@ template.innerHTML = `
 <div class="outer" id="outerNode"><slot> cool arc bro:&nbsp;<span id="textHere"></span></div>
   <svg xmlns="http://www.w3.org/2000/svg" style="width:110; height:110;">
     <path d="M 0 6 L 3 0 L 6 6 L 0 6"/>
+    <path d="M 10 16 L 13 10 L 16 16 L 10 16"/>
     <path d="" id="arc" fill="none" stroke="blue" stroke-width="3" />
+    <path d="" id="arc2" fill="none" stroke="blue" stroke-width="3" />
   </svg>
 
     <div><slot>default text</slot></div>
@@ -29,6 +31,7 @@ class MultiProgress extends HTMLElement {
         this.$textHere = this._shadowRoot.querySelector('#textHere');
         this.$outerNode = this._shadowRoot.querySelector('#outerNode');
         this.$arc = this._shadowRoot.querySelector('#arc');
+        this.$arc2 = this._shadowRoot.querySelector('#arc2');
         this.$radius = 50;
     }
 
@@ -56,18 +59,23 @@ class MultiProgress extends HTMLElement {
       this.$textHere.innerHTML = this.textColor;
       this.$outerNode.style = `background:grey;color:${this.textColor}`;
       this.$arc.setAttribute("stroke", this.textColor);
-      this.myArc(this.$radius + 5, this.$radius + 5, this.$radius, this._progress * 360);
+      this.myArc(this.$arc, this.$radius + 5, this.$radius + 5, this.$radius, this._progress * 360, "arc2");
+
+      // A little example of how a nested arc might look.  Can't yet pass info to the component about size/color.
+      //
+      this.$arc2.setAttribute("stroke", "lightgreen");
+      this.myArc(this.$arc2, this.$radius + 5, this.$radius + 5, this.$radius - 5, this._progress * 360 * 0.7, "arc2");
     }
 
-    myArc(cx, cy, radius, max) {
-       var circle = this.$arc;
+    myArc(circle, cx, cy, radius, max, timerPrefix) {
+       // var circle = this.$arc;
        var e = circle.getAttribute("d");
        var d = " M " + (cx + radius) + " " + cy;
        var angle=0;
        if (typeof window.myTimer === 'undefined') {
          window.myTimer = []
        }
-       window.myTimer[this._id]  = window.setInterval(
+       window.myTimer[timerPrefix + "." + this._id]  = window.setInterval(
          () => {
            var radians= angle * (Math.PI / 180);  // convert degree to radians
            var x = cx + Math.cos(radians) * radius;
@@ -76,7 +84,7 @@ class MultiProgress extends HTMLElement {
            d += " L " + x + " " + y;
            circle.setAttribute("d", d)
            if (angle >= max) {
-             window.clearInterval(window.myTimer[this._id]);
+             window.clearInterval(window.myTimer[timerPredix + "." + this._id]);
            }
            angle += 3;
          }
