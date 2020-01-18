@@ -1,6 +1,7 @@
 <html>
   <head>
     <script src="multi-progress.js"> </script>
+    <script src="inner-arc.js"> </script>
   </head>
   <body>
     Multi-progress...
@@ -8,15 +9,9 @@
     <table><tr>
     <td>
     <multi-progress color="tan" id="one" progress=".4">
-	do stuff
-    </multi-progress>
-    </td>
-    <td>
-    <multi-progress color="green" id="two" progress=".6"> <span>mesopotamians</span></multi-progress>
-    </td>
-    <td>
-    <multi-progress color="red" id="three" radius="20" progress=".3"><span>Pokemon</span>
-      <multi-progress color="blue" id="four" radius="40" progress=".6"><span>is inside</span></multi-progress>
+        <inner-arc name="first" color="red" progress="0.123" > </inner-arc>
+        <inner-arc name="second" color="orange" progress="0.234" > </inner-arc>
+        <inner-arc name="third" color="yellow" progress="0.345" > </inner-arc>
     </multi-progress>
     </td>
     </tr></table>
