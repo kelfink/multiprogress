@@ -3,9 +3,6 @@ template.innerHTML = `
 <div class="outer" id="outerNode">
     <span id="textHere"></span></div>
   <svg xmlns="http://www.w3.org/2000/svg" style="width:110; height:110;">
-    <path d="M 0 6 L 3 0 L 6 6 L 0 6"/>
-    <path d="M 10 16 L 13 10 L 16 16 L 10 16"/>
-    <path d="" id="arc" fill="none" stroke="blue" stroke-width="3" />
   </svg>
 
   <slot>arcs go here</slot>
@@ -16,7 +13,8 @@ template.innerHTML = `
   }
   .outer {
       color: "brown";
-      border: 5px;
+      border: 1px;
+      padding: 1px;
       align: top;
       width: 130px;
   }
@@ -32,6 +30,7 @@ class MultiProgress extends HTMLElement {
         this.$textHere = this._shadowRoot.querySelector('#textHere');
         this.$outerNode = this._shadowRoot.querySelector('#outerNode');
         this.$arc = this._shadowRoot.querySelector('#arc');
+        this.$svg = this._shadowRoot.querySelector('svg');
         this.$radius = 50;
         this.arcs = [];
     }
@@ -45,11 +44,10 @@ class MultiProgress extends HTMLElement {
         }
 
         if(!this.hasAttribute('color')) {
-            this.setAttribute('color', 'black');
+            this.setAttribute('color', 'grey');
         } else {
           this.textColor = this.attributes['color'].value;
         };
-	console.log("in callback: color = ", this.textColor);
 
         // We set a default attribute here; if our end user hasn't provided one,
         // our element will display a "black" color instead.
@@ -71,44 +69,49 @@ class MultiProgress extends HTMLElement {
            this.renderArcs(arcs);
            window.arcs = arcs;
          } else {
-           console.log("skip", this.alreadyCaughtSlotChange);
            this.alreadyCaughtSlotChange--;
          };
        });
     }
 
     renderArcs(arcs) {
-      let radius = 50
-      const fprogress = arcs[0].getAttribute('progress');
-      const fname = arcs[0].getAttribute('name');
-      //this.myArc(radius + 5, radius + 5, radius, + fprogress * 360, "theone");
-      
-      var d = " M " + (radius + 5 + radius) + " " + radius;
+      let origial_radius = 50;
+      let radius = origial_radius - 2; // add a gap on the left.
       arcs.forEach(arc => {
-        console.log("An arc named", arc.getAttribute('name'));
         const progress = arc.getAttribute('progress');
         const aName = arc.getAttribute('name');
-        //const radius = arc.getAttribute('radius');
-        // this.myArc(this.$arc, radius + 5, radius + 5, radius, + progress * 360, "arc" + name  );
-        console.log("arc named:" + aName, this.$arc, radius + 5, radius + 5, radius, + progress * 360, progress);
-        d += this.myArc(radius + 5, radius + 5, radius, + fprogress * 360, "theone");
-        radius -=5
+        const color = arc.getAttribute("color")
+
+        var d = " M " + (radius + 5 + radius) + " " + radius;
+        d += this.myArc(origial_radius, origial_radius, radius, + progress * 360);
+        var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'path'); //Create a path in SVG's namespace
+        newElement.setAttribute("d", d); //Set path's data
+        newElement.setAttribute("my-name", aName);
+        newElement.setAttribute("stroke-width", "3px");
+        newElement.setAttribute("fill", "transparent");
+        newElement.setAttribute("stroke", arc.getAttribute("color")); //Set stroke colour
+        //newElement.style.strokeWidth = "3px"; //Set stroke width
+        this.$svg.appendChild(newElement);
+        radius -= 6;
       });
       var circle = this.$arc;
-      circle.setAttribute("d", d);
-    }
-
-    _renderMultiProgress() {
-      this.$textHere.innerHTML = this.textColor;
-      this.$outerNode.style = `background:grey;color:${this.textColor}`;
-      this.$arc.setAttribute("stroke", this.textColor);
-      //this.myArc(this.$arc, this.$radius + 5, this.$radius + 5, this.$radius, this._progress * 360, "arc");
-
-      // A little example of how a nested arc might look.  Can't yet pass info to the component about size/color.
-      //
+//      circle.setAttribute("d", d);
     }
 
     myArc(cx, cy, radius, max) {
+      var d = " M " + (cx + radius) + " " + cy;
+      var angle=0;
+      for (angle = 0; angle < max; angle += 6) {
+          var radians= angle * (Math.PI / 180);  // convert degree to radians
+          var x = cx + Math.cos(radians) * radius;
+          var y = cy + Math.sin(radians) * radius;
+
+          d += " L " + x + " " + y;
+      }
+      return d;
+    }
+
+    myArcMoves(cx, cy, radius, max) {
       var d = " M " + (cx + radius) + " " + cy;
       var angle=0;
       for (angle = 0; angle < max; angle += 3) {
@@ -119,7 +122,6 @@ class MultiProgress extends HTMLElement {
           d += " L " + x + " " + y;
       }
 
-      console.log("single arc appended");
       return d;
     }
 

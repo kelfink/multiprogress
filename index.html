@@ -1,20 +1,26 @@
 <html>
   <head>
+    <style>
+      table {
+        background-color:aquamarine
+      }
+    </style>
     <script src="multi-progress.js"> </script>
     <script src="inner-arc.js"> </script>
   </head>
   <body>
     Multi-progress...
     <hr/>
-    <table><tr>
+    <table ><tr>
     <td>
     <multi-progress color="tan" id="one" progress=".4">
-        <inner-arc name="first" color="red" progress="0.123" > </inner-arc>
-        <inner-arc name="second" color="orange" progress="0.234" > </inner-arc>
-        <inner-arc name="third" color="yellow" progress="0.345" > </inner-arc>
+        <inner-arc name="first" color="red" progress="0.86" > </inner-arc>
+        <inner-arc name="second" color="green" progress="0.50" > </inner-arc>
+        <inner-arc name="third" color="blue" progress="0.75" > </inner-arc>
+        <inner-arc name="fourth" color="green" progress="0.2" > </inner-arc>
     </multi-progress>
     </td>
-    </tr></table>
+    </tr></table >
 <hr/>
   </body>
 </html>
