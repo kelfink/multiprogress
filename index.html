@@ -4,7 +4,7 @@
       .nice {
         background-color:aquamarine
       }
-      .broken {
+      .short {
         background-color:pink
       }
       .forest {
@@ -12,6 +12,9 @@
       }
       .watch {
         background-color:black
+      }
+      table {
+        width:20%
       }
     </style>
     <script src="multi-progress.js"> </script>
@@ -23,14 +26,14 @@
     <table >
       <tr>
         <td class="watch">
-        <multi-progress color="tan" id="one" progress=".4">
+        <multi-progress>
             <inner-arc name="first" color="red" progress="0.86" > </inner-arc>
             <inner-arc name="second" color="green" progress="0.90" > </inner-arc>
             <inner-arc name="third" color="blue" progress="0.77" > </inner-arc>
         </multi-progress>
         </td>
         <td class="nice">
-          <multi-progress color="brown" id="one" progress=".4">
+          <multi-progress>
             <inner-arc name="first" color="red" progress="0.86" > </inner-arc>
             <inner-arc name="second" color="green" progress="0.50" > </inner-arc>
             <inner-arc name="third" color="blue" progress="0.1" > </inner-arc>
@@ -39,16 +42,20 @@
       </tr>
       <tr>
         <td class="forest">
-        <multi-progress color="tan" id="one" progress=".4">
+        <multi-progress>
             <inner-arc name="x" color="lightgreen" progress="0.86" > </inner-arc>
             <inner-arc name="y" color="green" progress="0.50" > </inner-arc>
             <inner-arc name="z" color="darkgreen" progress="0.75" > </inner-arc>
             <inner-arc name="w" color="white" progress="0.7" > </inner-arc>
             <inner-arc name="v" color="black" progress="0.82" > </inner-arc>
+            <inner-arc name="z" color="darkgreen" progress="0.75" > </inner-arc>
+            <inner-arc name="w" color="white" progress="0.7" > </inner-arc>
+            <inner-arc name="a" color="orange" progress="0.82" > </inner-arc>
+            <inner-arc name="b" color="purple" progress="0.82" > </inner-arc>
         </multi-progress>
         </td>
-        <td class="broken">
-          <multi-progress color="tan" id="one" progress=".4">
+        <td class="short">
+          <multi-progress>
               <inner-arc name="only" color="blue" progress="0.86" > </inner-arc>
               <inner-arc name="v" color="black" progress="0.82" > </inner-arc>
           </multi-progress>

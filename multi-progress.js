@@ -2,9 +2,7 @@ const template = document.createElement('template');
 template.innerHTML = `
 <div class="outer" id="outerNode">
     <span id="textHere"></span></div>
-  <svg xmlns="http://www.w3.org/2000/svg" style="width:110; height:110;">
-  </svg>
-
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" version="1.1"></svg>
   <slot>arcs go here</slot>
 </div>
 <style>
@@ -13,10 +11,12 @@ template.innerHTML = `
   }
   .outer {
       color: "brown";
-      border: 1px;
-      padding: 1px;
+      padding: 0.5em;
       align: top;
-      width: 130px;
+      width: 2em;
+  }
+  moop {
+    width: "10%";
   }
 </style>
 `;
@@ -81,10 +81,9 @@ class MultiProgress extends HTMLElement {
         var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'path'); //Create a path in SVG's namespace
         newElement.setAttribute("d", d); //Set path's data
         newElement.setAttribute("my-name", aName);
-        newElement.setAttribute("stroke-width", "3px");
+        newElement.setAttribute("stroke-width", "0.2rem");
         newElement.setAttribute("fill", "transparent");
         newElement.setAttribute("stroke", arc.getAttribute("color")); //Set stroke colour
-        //newElement.style.strokeWidth = "3px"; //Set stroke width
         this.$svg.appendChild(newElement);
         radius -= 6;
       });
