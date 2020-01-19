@@ -60,17 +60,11 @@ class MultiProgress extends HTMLElement {
        window.aNodes = assignedNodes;
 
        const slot = this.shadowRoot.querySelector('slot');
-       this.alreadyCaughtSlotChange = 6;
+  
        slot.addEventListener('slotchange', e => {
-         // this basically seems to work.  Not sue how safe it is for makign the event process just once
-         if (!this.alreadyCaughtSlotChange > 0) {
            this.alreadyCaughtSlotChange = true;
            const arcs =  e.target.assignedElements();
            this.renderArcs(arcs);
-           window.arcs = arcs;
-         } else {
-           this.alreadyCaughtSlotChange--;
-         };
        });
     }
 
