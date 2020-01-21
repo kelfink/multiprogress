@@ -1,7 +1,7 @@
 {
-  "name": "multi-progress",
+  "name": "progress-rings",
   "version": "0.1.0",
-  "description": "A web component to display multiple progress items",
+  "description": "A web component to display multiple progress items in concentric rings",
   "main": "y",
   "scripts": {
     "test": "jest"
