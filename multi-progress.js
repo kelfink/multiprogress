@@ -2,21 +2,26 @@ const template = document.createElement('template');
 template.innerHTML = `
 <div class="outer" id="outerNode">
     <span id="textHere"></span></div>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" version="1.1"></svg>
+    <svg class="fadein-arc" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" version="1.1"></svg>
   <slot>arcs go here</slot>
 </div>
 <style>
   .host {
-    background: "lightgrey";
+    background: "green";
   }
   .outer {
       color: "brown";
-      padding: 0.5em;
+      padding: 0em;
       align: top;
       width: 2em;
   }
-  moop {
-    width: "10%";
+
+  @keyframes hideshow {
+    0% {  transform: rotate(270deg); }
+    100% {  transform: rotate(360deg);}
+  }
+  .fadein-arc {
+    animation: hideshow 1s ease 1;
   }
 </style>
 `;
@@ -40,7 +45,6 @@ class MultiProgress extends HTMLElement {
         this._id = this.getAttribute('id');
         if(this.hasAttribute('radius')) {
             this.$radius = parseInt(this.getAttribute('radius'));
-            console.log("got the attribute",  this.getAttribute('radius'));
         }
 
         if(!this.hasAttribute('color')) {
@@ -49,22 +53,18 @@ class MultiProgress extends HTMLElement {
           this.textColor = this.attributes['color'].value;
         };
 
-        // We set a default attribute here; if our end user hasn't provided one,
-        // our element will display a "black" color instead.
-
-       // this._renderMultiProgress();
-
        window.slots = this.shadowRoot.querySelectorAll('slot');
        const assignedNodes = this.shadowRoot.querySelectorAll('slot')[0].assignedNodes();
        
        window.aNodes = assignedNodes;
 
        const slot = this.shadowRoot.querySelector('slot');
-  
+
        slot.addEventListener('slotchange', e => {
            this.alreadyCaughtSlotChange = true;
            const arcs =  e.target.assignedElements();
            this.renderArcs(arcs);
+
        });
     }
 
@@ -81,7 +81,7 @@ class MultiProgress extends HTMLElement {
         var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'path'); //Create a path in SVG's namespace
         newElement.setAttribute("d", d); //Set path's data
         newElement.setAttribute("my-name", aName);
-        newElement.setAttribute("stroke-width", "0.2rem");
+        newElement.setAttribute("stroke-width", "0.3rem");
         newElement.setAttribute("fill", "transparent");
         newElement.setAttribute("stroke", arc.getAttribute("color")); //Set stroke colour
         this.$svg.appendChild(newElement);
